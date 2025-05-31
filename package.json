@@ -1,0 +1,34 @@
+{
+  "name": "government-petition-email-composer",
+  "version": "1.0.0",
+  "description": "A web application for composing and sending objection emails to the Finance Bill 2025",
+  "main": "index.html",
+  "scripts": {
+    "build": "npm run clean && npm run copy-assets && npm run minify",
+    "clean": "rimraf dist",
+    "copy-assets": "mkdir -p dist && cp src/index.html dist/",
+    "minify": "html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true src/index.html -o dist/index.html",
+    "serve": "http-server dist -p 8080 -o",
+    "dev": "http-server src -p 3000 -o",
+    "start": "npm run build && npm run serve"
+  },
+  "keywords": [
+    "petition",
+    "email-composer",
+    "government",
+    "finance-bill",
+    "kenya"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "html-minifier": "^4.0.0",
+    "http-server": "^14.1.1",
+    "rimraf": "^5.0.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/government-petition-email-composer.git"
+  },
+  "homepage": "https://yourusername.github.io/government-petition-email-composer"
+}
