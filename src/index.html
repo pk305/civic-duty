@@ -176,9 +176,10 @@
         cursor: pointer;
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        position: relative;
       }
 
-      .send-button:hover {
+      .send-button:hover:not(:disabled) {
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
       }
@@ -187,6 +188,23 @@
         opacity: 0.6;
         cursor: not-allowed;
         transform: none;
+      }
+
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ffffff;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s linear infinite;
+        margin-right: 10px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
       }
 
       .info-box {
@@ -226,18 +244,48 @@
         position: fixed;
         top: 20px;
         right: 20px;
-        background: #4caf50;
-        color: white;
         padding: 15px 25px;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         transform: translateX(400px);
         transition: transform 0.3s ease;
         z-index: 1000;
+        max-width: 300px;
       }
 
       .toast.show {
         transform: translateX(0);
+      }
+
+      .toast.success {
+        background: #4caf50;
+        color: white;
+      }
+
+      .toast.error {
+        background: #f44336;
+        color: white;
+      }
+
+      .toast.info {
+        background: #2196f3;
+        color: white;
+      }
+
+      .status-indicator {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+
+      .status-indicator.connected {
+        background: #4caf50;
+      }
+
+      .status-indicator.disconnected {
+        background: #f44336;
       }
 
       @media (max-width: 768px) {
@@ -267,21 +315,30 @@
           Tax Procedures Act, which prohibits KRA from accessing Mpesa Personal
           Data. Submit your Memoranda
         </p>
+        <div style="margin-top: 15px; font-size: 0.9rem">
+          <span class="status-indicator connected" id="server-status"></span>
+          <span id="server-status-text">Ready to send emails</span>
+        </div>
       </div>
 
       <div class="form-section">
-        <!-- Step 1: Choose Recipients -->
         <div class="step">
           <div class="step-header">
             <div class="step-number">1</div>
             <div class="step-title">Choose Recipients</div>
           </div>
           <div class="checkbox-group">
-            <div class="checkbox-item" onclick="toggleCheckbox('clerk')">
+            <div
+              class="checkbox-item selected"
+              onclick="toggleCheckbox('clerk')"
+            >
               <input type="checkbox" id="clerk" checked />
               <label for="clerk">Clerk of the National Assembly</label>
             </div>
-            <div class="checkbox-item" onclick="toggleCheckbox('finance')">
+            <div
+              class="checkbox-item selected"
+              onclick="toggleCheckbox('finance')"
+            >
               <input type="checkbox" id="finance" checked />
               <label for="finance"
                 >Finance Committee (Departmental Committee on Finance and
@@ -308,8 +365,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Step 2: Edit Subject Line -->
         <div class="step">
           <div class="step-header">
             <div class="step-number">2</div>
@@ -321,11 +376,10 @@
               type="text"
               id="subject"
               value="RE: MEMORANDUM OF OBJECTION TO THE FINANCE BILL 2025 (NATIONAL ASSEMBLY BILLS NO. 19 OF 2025)"
+              oninput="updatePreview()"
             />
           </div>
         </div>
-
-        <!-- Step 3: Customize Your Email -->
         <div class="step">
           <div class="step-header">
             <div class="step-number">3</div>
@@ -335,27 +389,49 @@
             <label for="email-content"
               >Feel free to personalize the email template below:</label
             >
-            <textarea id="email-content" class="email-template">
-Dear Honorable Members,
+            <textarea
+              id="email-content"
+              class="email-template"
+              oninput="updatePreview()"
+            >
+Dear Official,
+RE: FINANCE BILL 2025
+          
+The above subject refers;
 
-I write to express my strong objection to the Finance Bill 2025, particularly regarding the proposed deletion of Section 59A(1B) of the Tax Procedures Act.
+Following the invitation by the National Assembly to submit comments on the above. Recognizing the Sovereignty of the People and Supremacy of the Constitution as under Chapter 1 of the Constitution of Kenya 2010, Rights and Fundamental Freedoms as provided under Chapter 4 of the Bill of Rights, Leadership and Integrity of State Officers as under Chapter 6, the Role of the Legislature under Chapter 8.
 
-This section currently prohibits the Kenya Revenue Authority (KRA) from accessing M-Pesa personal data without proper legal procedures. Its removal would:
+Pursuant to Articles 10(2), 118(1) of the Constitution 2010 that mandates Public Participation in any Legislative Process I wish to submit my Memoranda as follows:
 
-1. Violate citizens' privacy rights and data protection
-2. Grant excessive powers to KRA without adequate oversight
-3. Undermine public trust in mobile money services
-4. Potentially discourage financial inclusion efforts
+1. REJECTION OF SECTION A, PART I OF THE 1ST SCHEDULE OF THE VALUE ADDED TAX ACT
 
-The proposed changes represent a dangerous overreach that could harm Kenya's digital economy and violate constitutional rights to privacy. M-Pesa and similar services have been crucial for financial inclusion, and unrestricted government access to this data would undermine citizen confidence.
+This amendment is incompatible with the economic and social rights guaranteed under Article 43 of the Constitution of Kenya 2010.
 
-I therefore call for the withdrawal of this Bill, or at minimum, the retention of Section 59A(1B) to protect citizen privacy and maintain the integrity of our financial systems.
+Removing zero-rated status from essential goods will increase the cost of living and disproportionately burden low-income households.
 
-I urge you to reject these provisions for the sake of protecting Kenyan citizens' rights and maintaining trust in our digital financial ecosystem.
+The agricultural sector, a key economic driver, will be negatively affected, harming Kenyan households that rely on agriculture for income.
+
+2. REJECTION OF AMENDMENTS TO SECTIONS 2 & 5 OF THE EXCISE DUTY ACT
+
+These amendments violate the non-discrimination protections under Article 27 of the Constitution of Kenya 2010.
+
+Expanding digital lending tax to include services offered by non-resident persons over the internet will adversely affect Kenyans who depend on digital loans for essential expenses.
+
+While aiming to create fair competition, these changes will increase borrowing costs, making credit less accessible and leading to financial exclusion for low and middle-income Kenyans.
+
+3. REJECTION OF AMENDMENTS TO SECTION 59A OF THE TAX PROCEDURES ACT
+
+The deletion of subsection 1B is unconstitutional as it infringes on the right to privacy guaranteed under Article 31 of the Constitution of Kenya 2010.
+
+This amendment would grant the Commissioner unrestricted authority to access personal and private data, including M-Pesa financial records, without necessary safeguards.
+
+There are inadequate protections against potential overreach by the Kenya Revenue Authority, creating a risk of unauthorized access to citizens' private financial information.
+
+In conclusion, I call for the withdrawal of this Bill as it is made in Bad Faith, ignorant to the Current Economic Needs and Political Wills of the People of Kenya, Will Entrench the Abuse of Power by the Revenue Authorities, A Dubious Attempt to Sneak in Tyranny, Reinforce Poverty, Promote Marginalization and at the end of it Will Deny Kenyans the Transformative Agenda of Vision 2030. I thus pray that you Reject it for the sake of a better Kenya.
 
 Yours Faithfully,
 
-{{Name}} ............................................(SIGN)
+{{Name}} ................(SIGN)
 
 Citizen of Kenya</textarea
             >
@@ -367,6 +443,8 @@ Citizen of Kenya</textarea
               type="text"
               id="sender-name"
               placeholder="Enter your full name"
+              required
+              oninput="updatePreview()"
             />
           </div>
 
@@ -376,11 +454,11 @@ Citizen of Kenya</textarea
               type="email"
               id="sender-email"
               placeholder="your.email@example.com"
+              required
             />
           </div>
         </div>
 
-        <!-- Preview Section -->
         <div class="preview-section">
           <div class="preview-header">📧 Email Preview</div>
           <div class="email-preview" id="email-preview">
@@ -399,39 +477,89 @@ Citizen of Kenya</textarea
             </div>
             <div style="border-top: 1px solid #ddd; padding-top: 15px">
               <div id="preview-content">
-                Dear Honorable Members,<br /><br />
+                Dear Official,<br /><br />
 
-                I write to express my strong objection to the Finance Bill 2025,
-                particularly regarding the proposed deletion of Section 59A(1B)
-                of the Tax Procedures Act.<br /><br />
+                <strong>RE: FINANCE BILL 2025</strong><br /><br />
 
-                This section currently prohibits the Kenya Revenue Authority
-                (KRA) from accessing M-Pesa personal data without proper legal
-                procedures. Its removal would:<br /><br />
+                The above subject refers;<br /><br />
 
-                1. Violate citizens' privacy rights and data protection<br />
-                2. Grant excessive powers to KRA without adequate oversight<br />
-                3. Undermine public trust in mobile money services<br />
-                4. Potentially discourage financial inclusion efforts<br /><br />
+                Following the invitation by the National Assembly to submit
+                comments on the above. Recognizing the Sovereignty of the People
+                and Supremacy of the Constitution as under Chapter 1 of the
+                Constitution of Kenya 2010, Rights and Fundamental Freedoms as
+                provided under Chapter 4 of the Bill of Rights, Leadership and
+                Integrity of State Officers as under Chapter 6, the Role of the
+                Legislature under Chapter 8.<br /><br />
 
-                The proposed changes represent a dangerous overreach that could
-                harm Kenya's digital economy and violate constitutional rights
-                to privacy. M-Pesa and similar services have been crucial for
-                financial inclusion, and unrestricted government access to this
-                data would undermine citizen confidence.<br /><br />
+                Pursuant to Articles 10(2), 118(1) of the Constitution 2010 that
+                mandates Public Participation in any Legislative Process I wish
+                to submit my Memoranda as follows:<br /><br />
 
-                I therefore call for the withdrawal of this Bill, or at minimum,
-                the retention of Section 59A(1B) to protect citizen privacy and
-                maintain the integrity of our financial systems.<br /><br />
+                <strong
+                  >1. REJECTION OF SECTION A, PART I OF THE 1ST SCHEDULE OF THE
+                  VALUE ADDED TAX ACT</strong
+                ><br /><br />
 
-                I urge you to reject these provisions for the sake of protecting
-                Kenyan citizens' rights and maintaining trust in our digital
-                financial ecosystem.<br /><br />
+                This amendment is incompatible with the economic and social
+                rights guaranteed under Article 43 of the Constitution of Kenya
+                2010.<br /><br />
+
+                Removing zero-rated status from essential goods will increase
+                the cost of living and disproportionately burden low-income
+                households.<br /><br />
+
+                The agricultural sector, a key economic driver, will be
+                negatively affected, harming Kenyan households that rely on
+                agriculture for income.<br /><br />
+
+                <strong
+                  >2. REJECTION OF AMENDMENTS TO SECTIONS 2 & 5 OF THE EXCISE
+                  DUTY ACT</strong
+                ><br /><br />
+
+                These amendments violate the non-discrimination protections
+                under Article 27 of the Constitution of Kenya 2010.<br /><br />
+
+                Expanding digital lending tax to include services offered by
+                non-resident persons over the internet will adversely affect
+                Kenyans who depend on digital loans for essential expenses.<br /><br />
+
+                While aiming to create fair competition, these changes will
+                increase borrowing costs, making credit less accessible and
+                leading to financial exclusion for low and middle-income
+                Kenyans.<br /><br />
+
+                <strong
+                  >3. REJECTION OF AMENDMENTS TO SECTION 59A OF THE TAX
+                  PROCEDURES ACT</strong
+                ><br /><br />
+
+                The deletion of subsection 1B is unconstitutional as it
+                infringes on the right to privacy guaranteed under Article 31 of
+                the Constitution of Kenya 2010.<br /><br />
+
+                This amendment would grant the Commissioner unrestricted
+                authority to access personal and private data, including M-Pesa
+                financial records, without necessary safeguards.<br /><br />
+
+                There are inadequate protections against potential overreach by
+                the Kenya Revenue Authority, creating a risk of unauthorized
+                access to citizens' private financial information.<br /><br />
+
+                In conclusion, I call for the withdrawal of this Bill as it is
+                made in Bad Faith, ignorant to the Current Economic Needs and
+                Political Wills of the People of Kenya, Will Entrench the Abuse
+                of Power by the Revenue Authorities, A Dubious Attempt to Sneak
+                in Tyranny, Reinforce Poverty, Promote Marginalization and at
+                the end of it Will Deny Kenyans the Transformative Agenda of
+                Vision 2030. I thus pray that you Reject it for the sake of a
+                better Kenya.<br /><br />
 
                 Yours Faithfully,<br /><br />
 
-                <span id="preview-name">[Your Name]</span>
-                ............................................(SIGN)<br /><br />
+                <span id="preview-name"
+                  >……………(Your Name)……………………………..(SIGN)</span
+                ><br /><br />
 
                 Citizen of Kenya
               </div>
@@ -440,7 +568,6 @@ Citizen of Kenya</textarea
         </div>
       </div>
 
-      <!-- Step 4: Send Your Email -->
       <div class="send-section">
         <div
           class="step-header"
@@ -450,14 +577,14 @@ Citizen of Kenya</textarea
           <div class="step-title">Send Your Email</div>
         </div>
 
-        <button class="send-button" onclick="sendEmail()">
+        <button class="send-button" id="send-button" onclick="sendEmail()">
           📨 Send Email Now
         </button>
 
         <div class="info-box">
-          <strong>📋 Note:</strong> After clicking "Send", your default email
-          program will open with this message pre-filled. Simply click send in
-          your email client to deliver your message.
+          <strong>📋 Note:</strong> Your email will be sent directly via our
+          secure Mailgun service to the selected government officials. You'll
+          receive a confirmation once sent successfully.
         </div>
       </div>
     </div>
@@ -465,7 +592,6 @@ Citizen of Kenya</textarea
     <div class="toast" id="toast"></div>
 
     <script>
-      // Store recipients data
       const recipients = {
         clerk: {
           name: "Clerk of the National Assembly",
@@ -509,81 +635,46 @@ Citizen of Kenya</textarea
       }
 
       function updatePreview() {
-        // Update recipients
         const selectedRecipients = [];
         Object.keys(recipients).forEach((key) => {
-          if (document.getElementById(key).checked) {
+          const checkbox = document.getElementById(key);
+          if (checkbox.checked) {
             selectedRecipients.push(recipients[key].name);
           }
         });
-        document.getElementById("preview-recipients").textContent =
-          selectedRecipients.join(", ") || "None selected";
+        const previewRecipients = document.getElementById("preview-recipients");
+        if (previewRecipients) {
+          previewRecipients.textContent =
+            selectedRecipients.length > 0
+              ? selectedRecipients.join(", ")
+              : "No recipients selected";
+        }
 
-        // Update subject
         const subject = document.getElementById("subject").value;
-        document.getElementById("preview-subject").textContent = subject;
+        const previewSubject = document.getElementById("preview-subject");
+        if (previewSubject) {
+          previewSubject.textContent = subject;
+        }
 
-        // Update content
         const content = document.getElementById("email-content").value;
         const senderName =
           document.getElementById("sender-name").value || "[Your Name]";
 
-        let formattedContent = content.replace("{{Name}}", senderName);
-        formattedContent = formattedContent.replace(/\n/g, "<br>");
+        const processedContent = content
+          .replace(/{{Name}}/g, senderName)
+          .replace(/\n/g, "<br />");
 
-        document.getElementById("preview-content").innerHTML = formattedContent;
-        document.getElementById("preview-name").textContent = senderName;
+        const previewContent = document.getElementById("preview-content");
+        const previewName = document.getElementById("preview-name");
+
+        if (previewContent) previewContent.innerHTML = processedContent;
+        if (previewName) previewName.textContent = senderName;
       }
 
-      function sendEmail() {
-        const selectedEmails = [];
-        const selectedNames = [];
-
-        Object.keys(recipients).forEach((key) => {
-          if (document.getElementById(key).checked) {
-            // Split emails by comma and add all addresses
-            const emails = recipients[key].email.split(",");
-            selectedEmails.push(...emails);
-            selectedNames.push(recipients[key].name);
-          }
-        });
-
-        console.log(`selectedNames`, selectedNames);
-        console.log(`selectedEmails`, selectedEmails);
-
-        // if (selectedEmails.length === 0) {
-        //     showToast('Please select at least one recipient', 'error');
-        //     return;
-        // }
-
-        // const senderName = document.getElementById('sender-name').value;
-        // const senderEmail = document.getElementById('sender-email').value;
-
-        // if (!senderName || !senderEmail) {
-        //     showToast('Please enter your name and email address', 'error');
-        //     return;
-        // }
-
-        // const subject = document.getElementById('subject').value;
-        // const content = document.getElementById('email-content').value.replace('{{Name}}', senderName);
-
-        // // Create mailto link
-        // const emailBody = encodeURIComponent(content);
-        // const emailSubject = encodeURIComponent(subject);
-        // const emailTo = selectedEmails.join(',');
-
-        // const mailtoLink = `mailto:${emailTo}?subject=${emailSubject}&body=${emailBody}`;
-
-        // // Open email client
-        // window.location.href = mailtoLink;
-
-        showToast("Opening your email client...", "success");
-      }
-
-      function showToast(message, type = "success") {
+      function showToast(message, type = "info") {
         const toast = document.getElementById("toast");
         toast.textContent = message;
-        toast.style.background = type === "error" ? "#f44336" : "#4caf50";
+        toast.className = `toast ${type}`;
         toast.classList.add("show");
 
         setTimeout(() => {
@@ -591,27 +682,109 @@ Citizen of Kenya</textarea
         }, 3000);
       }
 
-      // Initialize
-      document.addEventListener("DOMContentLoaded", function () {
-        // Set initial selected states
-        document
-          .querySelectorAll('input[type="checkbox"]:checked')
-          .forEach((checkbox) => {
-            checkbox.closest(".checkbox-item").classList.add("selected");
+      function validateForm() {
+        const senderName = document.getElementById("sender-name").value.trim();
+        const senderEmail = document
+          .getElementById("sender-email")
+          .value.trim();
+
+        if (!senderName) {
+          showToast("Please enter your full name", "error");
+          return false;
+        }
+
+        if (!senderEmail) {
+          showToast("Please enter your email address", "error");
+          return false;
+        }
+
+        if (!senderEmail.includes("@")) {
+          showToast("Please enter a valid email address", "error");
+          return false;
+        }
+
+        const hasSelectedRecipient = Object.keys(recipients).some(
+          (key) => document.getElementById(key).checked
+        );
+
+        if (!hasSelectedRecipient) {
+          showToast("Please select at least one recipient", "error");
+          return false;
+        }
+
+        return true;
+      }
+
+      async function sendEmail() {
+        if (!validateForm()) {
+          return;
+        }
+
+        const button = document.getElementById("send-button");
+        const originalText = button.innerHTML;
+
+        button.disabled = true;
+        button.innerHTML = '<span class="loading"></span>Sending...';
+
+        try {
+          const selectedRecipients = [];
+          Object.keys(recipients).forEach((key) => {
+            const checkbox = document.getElementById(key);
+            if (checkbox.checked) {
+              selectedRecipients.push(key);
+            }
           });
 
-        // Add event listeners
-        document
-          .getElementById("subject")
-          .addEventListener("input", updatePreview);
-        document
-          .getElementById("email-content")
-          .addEventListener("input", updatePreview);
-        document
-          .getElementById("sender-name")
-          .addEventListener("input", updatePreview);
+          const formData = {
+            selectedRecipients,
+            subject: document.getElementById("subject").value,
+            content: document.getElementById("email-content").value,
+            senderName: document.getElementById("sender-name").value.trim(),
+            senderEmail: document.getElementById("sender-email").value.trim(),
+          };
 
-        // Initial preview update
+          // Send to Netlify Function
+          const response = await fetch("/.netlify/functions/send-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            showToast(
+              `✅ ${result.message} Thank you for your civic participation!`,
+              "success"
+            );
+
+            resetForm();
+          } else {
+            showToast(`❌ ${result.message}`, "error");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          showToast(
+            "❌ Network error. Please check your connection and try again.",
+            "error"
+          );
+        } finally {
+          // Reset button
+          button.disabled = false;
+          button.innerHTML = originalText;
+        }
+      }
+
+      function resetForm() {
+        document.getElementById("sender-name").value = "";
+        document.getElementById("sender-email").value = "";
+
+        updatePreview();
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
         updatePreview();
       });
     </script>

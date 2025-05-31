@@ -6,11 +6,12 @@
   "scripts": {
     "build": "npm run clean && npm run copy-assets && npm run minify",
     "clean": "rimraf dist",
-    "copy-assets": "mkdir -p dist && cp src/index.html dist/",
+    "copy-assets": "mkdir -p dist && cp src/index.html dist/ && cp -r server dist/",
     "minify": "html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true src/index.html -o dist/index.html",
     "serve": "http-server dist -p 8080 -o",
-    "dev": "http-server src -p 3000 -o",
-    "start": "npm run build && npm run serve"
+    "dev": "concurrently \"nodemon server/server.js\" \"http-server src -p 3000 -o\"",
+    "start": "node server/server.js",
+    "server": "nodemon server/server.js"
   },
   "keywords": [
     "petition",
@@ -19,16 +20,26 @@
     "finance-bill",
     "kenya"
   ],
-  "author": "Your Name",
+  "author": "pk305",
   "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "form-data": "^4.0.0",
+    "mailgun.js": "^9.4.1",
+    "nodemailer": "^7.0.3"
+  },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "html-minifier": "^4.0.0",
     "http-server": "^14.1.1",
-    "rimraf": "^5.0.10"
+    "nodemon": "^3.0.1",
+    "rimraf": "^5.0.5"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/government-petition-email-composer.git"
+    "url": "https://github.com/pk305/civic-duty.git"
   },
-  "homepage": "https://yourusername.github.io/government-petition-email-composer"
+  "homepage": "https://pk305.github.io/civic-duty"
 }
